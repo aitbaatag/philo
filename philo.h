@@ -45,9 +45,9 @@ typedef struct s_fork
 typedef struct  s_philosophers	
 {
 	int				id;
-	bool			full;
-	long			meals_counter;
-	long			last_meal_time;
+	int				full;
+	int				meals_counter;
+	size_t			last_meal_time;
 	size_t			start_time;
 	int				*dead;
 	pthread_mutex_t	*	write;
@@ -61,15 +61,14 @@ typedef struct  s_philosophers
 
 typedef struct s_philo_data
 {
-	int				num_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				num_of_times_eat;
+	int					num_philo;
+	size_t				time_to_die;
+	size_t				time_to_eat;
+	size_t				time_to_sleep;
+	size_t				num_of_times_eat;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
-	pthread_t		threads;
 	t_philo			*philo;
 	t_forks			*fork;
 }		t_data;

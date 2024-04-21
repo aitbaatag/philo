@@ -15,6 +15,7 @@ void	philo_init(t_data *data, pthread_mutex_t *forks)
 		data->philo[i].id = i + 1;
 		data->philo[i].meals_counter = 0;
 		data->philo[i].full = 0;
+		data->philo[i].dead = 1;
 		data->philo[i].meals_counter = 0;
 		data->philo[i].write_lock = &data->write_lock;
 		data->philo[i].dead_lock = &data->dead_lock;

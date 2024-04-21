@@ -1,10 +1,10 @@
 #include "philo.h"
-void lock(pthread_mutex_t lock)
+int lock(pthread_mutex_t lock)
 {
     if (pthread_mutex_lock(&lock) != 0)
         return (1, write (2, "mutex_lock\n", 12));
 }
-void unlock(pthread_mutex_t lock)
+int unlock(pthread_mutex_t lock)
 {
     if (pthread_mutex_unlock(&lock) != 0)
         return (1, write (2, "mutex_lock\n", 12));
@@ -25,4 +25,13 @@ int	ft_usleep(size_t milliseconds)
 	while ((get_current_time() - start) < milliseconds)
 		usleep(500);
 	return (0);
-}   
+}
+
+void check_dead(t_philo *philo, t_data *data)
+{
+	size_t current_time;
+	
+	current_time = get_current_time();
+	if (current_time - philo->start_time >= data->time_to_die)
+		*philo->dead = 0;
+}
