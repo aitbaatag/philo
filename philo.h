@@ -38,7 +38,6 @@ philosopher must eat"
 
 typedef struct s_fork
 {
-	int				id;
 	pthread_mutex_t *forks;
 }		t_forks;
 
@@ -49,6 +48,7 @@ typedef struct  s_philosophers
 	int				meals_counter;
 	size_t			last_meal_time;
 	size_t			start_time;
+	int num_eat;
 	int				*dead;
 	pthread_mutex_t	*	write;
 	pthread_t		thread_id;
