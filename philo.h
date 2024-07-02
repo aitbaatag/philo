@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <stdbool.h>
+
+typedef struct s_philo_data t_data;
 /*
 ** Error messages
 */
@@ -14,6 +16,7 @@
 # define ARG1 "ERROR: There is a mistake in number of philosophers"
 # define ARG2 "ERROR: There is a mistake in time to die"
 # define ARG3 "ERROR: There is a mistake in time to eat"
+		
 # define ARG4 "ERROR: There is a mistake in time to sleep"
 # define ARG5 "ERROR: There is a mistake in number of times each \
 philosopher must eat"
@@ -47,16 +50,14 @@ typedef struct  s_philosophers
 	int				full;
 	int				meals_counter;
 	size_t			last_meal_time;
-	size_t			start_time;
 	int num_eat;
-	int				*dead;
+	int eating;
 	pthread_mutex_t	*	write;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*write_lock;
-	pthread_mutex_t	*dead_lock;
-	pthread_mutex_t	*meal_lock;
+	pthread_mutex_t lock;
+	t_data *data;
 }		t_philo;
 
 typedef struct s_philo_data
@@ -66,6 +67,8 @@ typedef struct s_philo_data
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
 	size_t				num_of_times_eat;
+	int				*dead;
+	int finished;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
@@ -75,4 +78,12 @@ typedef struct s_philo_data
 int		parsing(int argc, char *argv[], t_data *p_data);
 int		ft_atoi(const char *str);
 void	philo_init(t_data *data, pthread_mutex_t *forks);
+void    init_fork(t_data *p_data);
+int	philosopher_thread(t_data *data);
+int lock(pthread_mutex_t *lock);
+int unlock(pthread_mutex_t *lock);
+size_t	get_current_time(void);
+int	ft_usleep(size_t milliseconds);
+void check_dead(t_philo *philo, t_data *data);
+void	print_status(t_data *data, int pid, char *string);
 #endif

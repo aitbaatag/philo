@@ -32,11 +32,17 @@ void check_dead(t_philo *philo, t_data *data)
 	size_t current_time;
 	
 	current_time = get_current_time();
-	if (current_time - philo->start_time >= data->time_to_die)
-		*philo->dead = 0;
+    pthread_mutex_lock(&philo->lock);
+	if (current_time - philo->last_meal_time >= data->time_to_die && philo->eating == 0)
+		*philo->data->dead = 0;
+	if (philo->meals_counter == philo->data->num_of_times_eat) {
+            philo->data->finished++;
+            philo->meals_counter++;
+        }
+    pthread_mutex_unlock(&philo->lock);
 }
 void	print_status(t_data *data, int pid, char *string)
 {
   pthread_mutex_lock(&data->write_lock);
-  printf("%lld %d %s", ft_time_in_ms() - data->philo->start_time, pid, string);
+  printf("%lld %d %s", ft_time_in_ms() - data->philo->last_meal_time, pid, string);
 }

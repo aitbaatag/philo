@@ -15,17 +15,18 @@ void	philo_init(t_data *data, pthread_mutex_t *forks)
 		data->philo[i].id = i + 1;
 		data->philo[i].meals_counter = 0;
 		data->philo[i].full = 0;
-		data->philo[i].dead = 1;
+		data->dead = 0;
+		data->philo->eating = 0;
+		data->philo->meals_counter = 0;
+		data->finished = 0;
 		data->philo[i].num_eat = data->num_of_times_eat;
 		data->philo[i].meals_counter = 0;
-		data->philo[i].write_lock = &data->write_lock;
-		data->philo[i].dead_lock = &data->dead_lock;
-		data->philo[i].meal_lock = &data->meal_lock;
 		data->philo[i].right_fork = &forks[i];
 		if (i == 0)
 			data->philo[i].left_fork = &forks[data->num_philo - 1];
 		else
 			data->philo[i].left_fork = &forks[i - 1];
+		pthread_mutex_init(&data->philo[i].lock, NULL);
 		i++;
 	}
 }
