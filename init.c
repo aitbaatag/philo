@@ -1,34 +1,38 @@
 #include "philo.h"
-void	philo_init(t_data *data, pthread_mutex_t *forks)
+int philo_init(t_data *data)
 {
-	int i;
+    int i;
 
-	i = 0;
-	forks = malloc(data->num_philo * sizeof(pthread_mutex_t));
-	if (fork == NULL)
-		error_exit("error malloc");
-	data->philo = malloc(data->num_philo * sizeof(t_philo));
-	if (data->philo == NULL)
-		error_exit("error malloc");
-	while (i < data->num_philo)
-	{
-		data->philo[i].id = i + 1;
-		data->philo[i].meals_counter = 0;
-		data->philo[i].full = 0;
-		data->dead = 0;
-		data->philo->eating = 0;
-		data->philo->meals_counter = 0;
-		data->finished = 0;
-		data->philo[i].num_eat = data->num_of_times_eat;
-		data->philo[i].meals_counter = 0;
-		data->philo[i].right_fork = &forks[i];
-		if (i == 0)
-			data->philo[i].left_fork = &forks[data->num_philo - 1];
-		else
-			data->philo[i].left_fork = &forks[i - 1];
-		pthread_mutex_init(&data->philo[i].lock, NULL);
-		i++;
-	}
+    i = 0;
+    data->philo = malloc(sizeof(t_philo) * data->num_philo);
+    data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philo);
+    if (!data->philo || !data->forks)
+    {
+        perror("Failed to allocate memory for philos or forks");
+        return (1);
+    }
+    init_mutex(data);
+    data->dead = 0;
+    data->finished = 0;
+    while (i < data->num_philo)
+    {
+        // data->philo[i].start_time = get_current_time();
+        data->philo[i].data = data;
+        data->philo[i].id = i + 1;
+        data->philo[i].eating = 0;
+        data->philo[i].meals_counter = 0;
+        data->philo[i].num_eat = data->num_of_times_eat;
+        data->philo[i].right_fork = &data->forks[i];
+        data->philo[i].last_meal_time = get_current_time();
+        if (i == 0)
+            data->philo[i].left_fork = &data->forks[data->num_philo - 1];
+        else
+            data->philo[i].left_fork = &data->forks[i - 1];
+        pthread_mutex_init(&data->philo[i].lock, NULL);
+        i++;
+    }
+    data->start_time = get_current_time();
+    return (0);
 }
 void    init_fork(t_data *p_data)
 {
@@ -37,8 +41,7 @@ void    init_fork(t_data *p_data)
 	i = 0;
 	while (p_data->num_philo > i)
 	{
-		if(pthread_mutex_init(&p_data->fork->forks[i], NULL) != 0)
-			error_exit("mutex init has failed\n");
+        pthread_mutex_init(&p_data->forks[i], NULL);
 		i++;
 	}
 }

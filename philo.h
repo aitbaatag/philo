@@ -39,19 +39,15 @@ philosopher must eat"
 # define FORK "has taken a fork"
 # define DIED "died ☠️"
 
-typedef struct s_fork
-{
-	pthread_mutex_t *forks;
-}		t_forks;
-
 typedef struct  s_philosophers	
 {
 	int				id;
 	int				full;
-	int				meals_counter;
+	size_t				meals_counter;
 	size_t			last_meal_time;
 	int num_eat;
 	int eating;
+	size_t		start_time;
 	pthread_mutex_t	*	write;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
@@ -67,23 +63,28 @@ typedef struct s_philo_data
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
 	size_t				num_of_times_eat;
-	int				*dead;
+	size_t		start_time;
+	int				dead;
 	int finished;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
 	t_philo			*philo;
-	t_forks			*fork;
+	pthread_mutex_t *forks;
 }		t_data;
 int		parsing(int argc, char *argv[], t_data *p_data);
 int		ft_atoi(const char *str);
-void	philo_init(t_data *data, pthread_mutex_t *forks);
+int	philo_init(t_data *data);
 void    init_fork(t_data *p_data);
 int	philosopher_thread(t_data *data);
 int lock(pthread_mutex_t *lock);
 int unlock(pthread_mutex_t *lock);
 size_t	get_current_time(void);
 int	ft_usleep(size_t milliseconds);
-void check_dead(t_philo *philo, t_data *data);
-void	print_status(t_data *data, int pid, char *string);
+int check_dead(t_philo *philo, t_data *data);
+void error_exit(char *str);
+void *start_routine(void *arg);
+int	philosopher_thread(t_data *data);
+void	print_status(t_philo *data, int pid, char *string);
+void init_mutex(t_data *data);
 #endif

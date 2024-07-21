@@ -33,7 +33,7 @@ void ft_print_error(int i)
 	if (i == 5)
 		printf (ARG5);
 }
-void parsing(int argc, char *argv[], t_data *p_data)
+int parsing(int argc, char *argv[], t_data *p_data)
 {
 	int i;
 
@@ -61,6 +61,8 @@ void parsing(int argc, char *argv[], t_data *p_data)
 		p_data->time_to_sleep = ft_atoi(argv[4]);
 		if (argc == 6)
 			p_data->num_of_times_eat = ft_atoi(argv[5]);
+		else
+			p_data->num_of_times_eat = -1;
         return (0);
 	}
 	else
