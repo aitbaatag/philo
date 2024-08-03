@@ -1,12 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/03 00:20:40 by kait-baa          #+#    #+#             */
+/*   Updated: 2024/08/03 01:09:16 by kait-baa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
-void error_exit(char *str)
+
+int	check_input(char *str)
 {
-    printf ("%s\n", str);
-    exit (1);
-}
-int check_input(char *str)
-{
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] == '+')
@@ -20,7 +28,8 @@ int check_input(char *str)
 	}
 	return (0);
 }
-void ft_print_error(int i)
+
+void	ft_print_error(int i)
 {
 	if (i == 1)
 		printf(ARG1);
@@ -33,9 +42,28 @@ void ft_print_error(int i)
 	if (i == 5)
 		printf (ARG5);
 }
-int parsing(int argc, char *argv[], t_data *p_data)
+
+int	helper(char *argv[], int argc, t_data *p_data)
 {
-	int i;
+	p_data->num_philo = ft_atoi(argv[1]);
+	if (p_data->num_philo > 200)
+	{
+		ft_print_error(1);
+		return (2);
+	}
+	p_data->time_to_die = ft_atoi(argv[2]);
+	p_data->time_to_eat = ft_atoi(argv[3]);
+	p_data->time_to_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		p_data->num_of_times_eat = ft_atoi(argv[5]);
+	else
+		p_data->num_of_times_eat = -1;
+	return (0);
+}
+
+int	parsing(int argc, char *argv[], t_data *p_data)
+{
+	int	i;
 
 	i = 1;
 	if (argc == 6 || argc == 5)
@@ -45,31 +73,19 @@ int parsing(int argc, char *argv[], t_data *p_data)
 			if (check_input(argv[i]) == 0)
 				i++;
 			else
-            {
+			{
 				ft_print_error(i);
-                return (1);
-            }
+				return (1);
+			}
 		}
-		p_data->num_philo = ft_atoi(argv[1]);
-		if (p_data->num_philo > 200)
-        {
-			ft_print_error(1);
-            return (2);
-        }
-		p_data->time_to_die = ft_atoi(argv[2]);
-		p_data->time_to_eat = ft_atoi(argv[3]);
-		p_data->time_to_sleep = ft_atoi(argv[4]);
-		if (argc == 6)
-			p_data->num_of_times_eat = ft_atoi(argv[5]);
-		else
-			p_data->num_of_times_eat = -1;
-        return (0);
+		return (helper(argv, argc, p_data));
 	}
 	else
 		printf (HELP);
-    return (3);
+	return (3);
 }
-int		ft_atoi(const char *str)
+
+int	ft_atoi(const char *str)
 {
 	unsigned int	num;
 	int				i;
@@ -78,7 +94,7 @@ int		ft_atoi(const char *str)
 	np = 1;
 	i = 0;
 	num = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\f' ||
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\f' || \
 			str[i] == '\r' || str[i] == '\n' || str[i] == '\v')
 		i++;
 	if (str[i] == '+' || str[i] == '-')
