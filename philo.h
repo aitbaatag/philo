@@ -6,7 +6,7 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:20:35 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/03 01:06:14 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/04 23:13:23 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int		philo_init(t_data *data);
 void	init_fork(t_data *p_data);
 int		philosopher_thread(t_data *data);
 size_t	get_current_time(void);
-int		ft_usleep(size_t milliseconds);
 int		check_dead(t_philo *philo, t_data *data);
 void	*start_routine(void *arg);
 int		philosopher_thread(t_data *data);

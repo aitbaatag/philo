@@ -6,7 +6,7 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:20:40 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/03 01:09:16 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/04 22:45:50 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	check_input(char *str)
 	i = 0;
 	if (str[i] == '+')
 		i++;
+	if (ft_atoi(str) == 0 || ft_atoi(str) == -1)
+		return (1);
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
@@ -87,7 +89,7 @@ int	parsing(int argc, char *argv[], t_data *p_data)
 
 int	ft_atoi(const char *str)
 {
-	unsigned int	num;
+	long			num;
 	int				i;
 	int				np;
 
@@ -103,6 +105,8 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		num = num * 10 + (str[i] - '0');
+		if (num > __INT_MAX__)
+			return (-1);
 		i++;
 	}
 	return ((int)(np * num));

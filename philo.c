@@ -6,7 +6,7 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:20:32 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/03 01:56:13 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/04 23:31:50 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void	perform_philosopher_actions(t_philo *philo, pthread_mutex_t *first_fork \
 {
 	pthread_mutex_lock(first_fork);
 	print_status(philo, philo->id, "has taken a fork");
+	if (philo->data->num_philo == 1)
+	{
+		usleep(philo->data->time_to_die * 1000);
+		pthread_mutex_unlock(first_fork);
+		return ;
+	}
 	pthread_mutex_lock(second_fork);
 	print_status(philo, philo->id, "has taken a fork");
 	pthread_mutex_lock(&philo->lock);
@@ -53,7 +59,7 @@ void	perform_philosopher_actions(t_philo *philo, pthread_mutex_t *first_fork \
 	philo->last_meal_time = get_current_time();
 	philo->eating = 1;
 	pthread_mutex_unlock(&philo->lock);
-	ft_usleep(philo->data->time_to_eat);
+	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_lock(&philo->lock);
 	philo->meals_counter++;
 	philo->eating = 0;
@@ -61,7 +67,7 @@ void	perform_philosopher_actions(t_philo *philo, pthread_mutex_t *first_fork \
 	pthread_mutex_unlock(first_fork);
 	pthread_mutex_unlock(second_fork);
 	print_status(philo, philo->id, SLEEP);
-	ft_usleep(philo->data->time_to_sleep);
+	usleep(philo->data->time_to_sleep * 1000);
 	print_status(philo, philo->id, THINK);
 }
 
@@ -103,6 +109,7 @@ void	*start_routine(void *arg)
 		if (check_death_status(philo))
 			break ;
 		perform_philosopher_actions(philo, first_fork, second_fork);
+		usleep(500);
 	}
 	return (NULL);
 }
@@ -121,15 +128,11 @@ int	philosopher_thread(t_data *data)
 		if (pthread_create(&data->philo[i].thread_id, NULL, \
 				start_routine, (void *)&data->philo[i]) != 0)
 			return (1);
-		ft_usleep(1);
 		i++;
 	}
+	pthread_join(id_toring, NULL);
 	i = -1;
-	if (data->num_philo != 1)
-	{
-		while (++i < data->num_philo)
-			pthread_join(data->philo[i].thread_id, NULL);
-	}
-	pthread_detach(id_toring);
+	while (++i < data->num_philo)
+		pthread_join(data->philo[i].thread_id, NULL);
 	return (0);
 }
