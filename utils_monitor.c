@@ -6,7 +6,7 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:20:37 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/06 11:24:32 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:04:15 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,6 @@ void	print_status(t_philo *philo, int pid, char *string)
 	if (philo->data->dead == 0 || string[0] == 'd')
 		printf("%lu %d %s\n", get_current_time() - \
 			philo->data->start_time, pid, string);
-	else
-	{
-		printf("still working\n");
-		printf ("%s\n", string);
-	}
 	pthread_mutex_unlock(&philo->data->dead_lock);
 	pthread_mutex_unlock(&philo->data->write_lock);
 }
