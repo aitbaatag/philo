@@ -6,54 +6,42 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:20:32 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/05 05:30:03 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/06 10:59:48 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*monitoring(void *data)
-{
-	t_data	*philo;
-	int		i;
-
-	philo = (t_data *)data;
-	while (true)
-	{
-		pthread_mutex_lock(&philo->dead_lock);
-		if (philo->dead == 1)
-		{
-			pthread_mutex_unlock(&philo->dead_lock);
-			break ;
-		}
-		if (philo->finished >= philo->num_philo)
-		{
-			philo->dead = 1;
-			pthread_mutex_unlock(&philo->dead_lock);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->dead_lock);
-		i = -1;
-		while (++i < philo->num_philo)
-			if (check_dead(&philo->philo[i], philo) == 0)
-				break ;
-	}
-	return ((void *)0);
-}
-
-void	perform_philosopher_actions(t_philo *philo, pthread_mutex_t *first_fork \
-		, pthread_mutex_t *second_fork)
+int	take_forks(t_philo *philo, pthread_mutex_t *first_fork, \
+	pthread_mutex_t *second_fork)
 {
 	pthread_mutex_lock(first_fork);
+	if (check_death_status(philo))
+	{
+		pthread_mutex_unlock(first_fork);
+		return (0);
+	}
 	print_status(philo, philo->id, "has taken a fork");
 	if (philo->data->num_philo == 1)
 	{
 		usleep(philo->data->time_to_die * 1000);
 		pthread_mutex_unlock(first_fork);
-		return ;
+		return (0);
 	}
 	pthread_mutex_lock(second_fork);
+	if (check_death_status(philo))
+	{
+		pthread_mutex_unlock(first_fork);
+		pthread_mutex_unlock(second_fork);
+		return (0);
+	}
 	print_status(philo, philo->id, "has taken a fork");
+	return (1);
+}
+
+void	eat_sleep_think(t_philo *philo, pthread_mutex_t *first_fork, \
+	pthread_mutex_t *second_fork)
+{
 	pthread_mutex_lock(&philo->lock);
 	print_status(philo, philo->id, EAT);
 	philo->last_meal_time = get_current_time();
@@ -66,25 +54,22 @@ void	perform_philosopher_actions(t_philo *philo, pthread_mutex_t *first_fork \
 	pthread_mutex_unlock(&philo->lock);
 	pthread_mutex_unlock(first_fork);
 	pthread_mutex_unlock(second_fork);
+	if (check_death_status(philo))
+		return ;
 	print_status(philo, philo->id, SLEEP);
 	usleep(philo->data->time_to_sleep * 1000);
+	if (check_death_status(philo))
+		return ;
 	print_status(philo, philo->id, THINK);
 }
 
-int	check_death_status(t_philo *philo)
+void	perform_philosopher_actions(t_philo *philo, \
+	pthread_mutex_t *first_fork, pthread_mutex_t *second_fork)
 {
-	if (pthread_mutex_lock(&philo->data->dead_lock) > 1)
-		return (2);
-	if (philo->data->dead == 1)
+	if (take_forks(philo, first_fork, second_fork))
 	{
-		if (pthread_mutex_unlock(&philo->data->dead_lock))
-			return (2);
-		else
-			return (1);
+		eat_sleep_think(philo, first_fork, second_fork);
 	}
-	if (pthread_mutex_unlock(&philo->data->dead_lock) > 0)
-		return (2);
-	return (0);
 }
 
 void	*start_routine(void *arg)
@@ -117,11 +102,8 @@ void	*start_routine(void *arg)
 int	philosopher_thread(t_data *data)
 {
 	int			i;
-	pthread_t	id_toring;
 
 	i = 0;
-	if (pthread_create(&id_toring, NULL, monitoring, (void *)data) != 0)
-		return (1);
 	data->start_time = get_current_time();
 	while (i < data->num_philo)
 	{
@@ -130,7 +112,7 @@ int	philosopher_thread(t_data *data)
 			return (1);
 		i++;
 	}
-	pthread_join(id_toring, NULL);
+	monitoring(data);
 	i = -1;
 	while (++i < data->num_philo)
 		pthread_join(data->philo[i].thread_id, NULL);

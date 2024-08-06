@@ -6,7 +6,7 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:20:35 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/05 05:27:51 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:03:40 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,6 @@ void	*start_routine(void *arg);
 int		philosopher_thread(t_data *data);
 void	print_status(t_philo *data, int pid, char *string);
 void	init_mutex(t_data *data);
+void	*monitoring(t_data *philo);
+int		check_death_status(t_philo *philo);
 #endif

@@ -6,11 +6,43 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:20:37 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/05 05:27:57 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:24:32 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	*monitoring(t_data *philo)
+{
+	int		i;
+
+	while (true)
+	{
+		pthread_mutex_lock(&philo->dead_lock);
+		if (philo->finished >= philo->num_philo)
+		{
+			philo->dead = 1;
+			pthread_mutex_unlock(&philo->dead_lock);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->dead_lock);
+		i = -1;
+		while (++i < philo->num_philo)
+			if (check_dead(&philo->philo[i], philo) == 0)
+				return ((void *)0);
+	}
+	return ((void *)0);
+}
+
+int	check_death_status(t_philo *philo)
+{
+	int	dead;
+
+	pthread_mutex_lock(&philo->data->dead_lock);
+	dead = philo->data->dead;
+	pthread_mutex_unlock(&philo->data->dead_lock);
+	return (dead);
+}
 
 size_t	get_current_time(void)
 {
@@ -55,6 +87,11 @@ void	print_status(t_philo *philo, int pid, char *string)
 	if (philo->data->dead == 0 || string[0] == 'd')
 		printf("%lu %d %s\n", get_current_time() - \
 			philo->data->start_time, pid, string);
+	else
+	{
+		printf("still working\n");
+		printf ("%s\n", string);
+	}
 	pthread_mutex_unlock(&philo->data->dead_lock);
 	pthread_mutex_unlock(&philo->data->write_lock);
 }
