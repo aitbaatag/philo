@@ -6,7 +6,7 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:18:28 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/03 17:11:35 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:57:29 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	initialize(t_data *data, int i)
 	data->philo[i].data = data;
 	data->philo[i].id = i + 1;
 	data->philo[i].eating = 0;
-	data->philo[i].meals_counter = 0;
 	data->philo[i].num_eat = data->num_of_times_eat;
 	data->philo[i].right_fork = &data->forks[i];
 	data->philo[i].last_meal_time = get_current_time();

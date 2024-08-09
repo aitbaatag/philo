@@ -6,7 +6,7 @@
 /*   By: kait-baa <kait-baa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 00:20:32 by kait-baa          #+#    #+#             */
-/*   Updated: 2024/08/06 18:07:32 by kait-baa         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:54:47 by kait-baa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	*start_routine(void *arg)
 		second_fork = philo->right_fork;
 		first_fork = philo->left_fork;
 	}
+	if (philo->id % 2 == 0)
+		usleep(500);
 	while (true)
 	{
 		if (check_death_status(philo))
