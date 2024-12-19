@@ -1,8 +1,8 @@
 <a name="readme-top"></a>
 <div align="center">
   <!-- Logo -->
-  <a href="https://github.com/dpetrosy/42-Philosophers">
-  <img src="README_files/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/aitbaatag/philo">
+  <img src="readme_file/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <!-- Project Name -->
@@ -10,7 +10,7 @@
 
 Philosophers is a 42 school project designed around Edsger Dijkstra's famous dining philosophers problem. For this project, we must learn about concurrent programming. For the project's mandatory part, we must find a solution to the problem using only threads and mutexes. For the bonus part, we must create a second program that uses processes and semaphores.
 
-> This project has been archived in the state it was in at the time of evaluation.
+This project has been archived in the state it was in at the time of evaluation.
 
 ---
 
@@ -86,35 +86,3 @@ The arguments must be integers between 0 and INT_MAX representing a time in mill
 
 If the arguments are valid, the program will output the actions of each philosopher until one of them dies or until all of them have eaten number_of_times_each_philo_must_eat, if specified.
 
-## Bonus Part - Processes and Semaphores
-
-For the bonus part of this project, the problem is the same with a few differences: philosophers are now processes and the forks are now a counting semaphore. The forks are arranged at the center of the table when not in use and any philosopher can take any fork.
-
-### Usage
-
-Git clone the project and for the bonus part:
-```shell
-cd philosophers/philo_bonus
-```
-To compile, use ```make``` or:
-
-```shell
-make BUILD=pretty
-```
-
-Run the program with the following arguments:
-
-```shell
-./philo_bonus <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> [number_of_times_each_philo_must_eat]
-```
-
-Like the mandatory part, the arguments must be integers between 0 and INT_MAX representing a time in milliseconds. For example:
-
-```shell
-/philo_bonus 4 800 200 200 5
-```
-
-If the arguments are valid, the program will output the actions of each philosopher until one of them dies or until all of them have eaten number_of_times_each_philo_must_eat, if specified.
-
----
-Made by mcombeau: mcombeau@student.42.fr | LinkedIn: [mcombeau](https://www.linkedin.com/in/mia-combeau-86653420b/) | Website: [codequoi.com](https://www.codequoi.com)
