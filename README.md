@@ -1,8 +1,10 @@
 <a name="readme-top"></a>
+<div align="center">
   <!-- Logo -->
   <a href="https://github.com/aitbaatag/philo">
   <img src="readme_file/logo.png" alt="Logo" width="80" height="80">
   </a>
+  </div>
 
   <!-- Project Name -->
   <h1>Philosophers Project</h1>
