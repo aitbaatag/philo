@@ -22,39 +22,35 @@ This project has been archived in the state it was in at the time of evaluation.
 
 ---
 
-## Status 
-
-Finished 24/09/2022. Grade: 125%.
-
 ## General Description
 
-The subject describes the problem as follows:
+TThe idea behind this problem comes from a very popular problem called *the dining philosophers problem*. It goes as follows. A certain number of philosophers sit on a round table. Each philosophers has a fork/chopstick on their left and their right. There are as many forks as philosophers on the table, and every philosopher has a bowl of spaghetti in front of them. Philosophers do these tasks in the following order:
 
-* One or more philosophers sit at a round table.
-* There is a large bowl of spaghetti in the middle of the table.
-* The spaghetti can only be eaten with two forks.
-* There are only as many forks as there are philosophers.
-* Each philosopher successively eats, sleeps and thinks.
-* If a philosopher hasn't eaten in a certain timeframe, he will die of starvation.
-* Philosophers cannot communicate with each other.
+1) Grab fork from both their left and right sides (if they're available) 🍴
+2) Start eating for ``X`` amount of time 🍝
+3) Release both forks for other philosophers to use
+4) Start sleeping for ``X`` amount of time 🌙
+5) Start thinking until forks are available to eat again 💭
 
-In both the mandatory and bonus parts, we must create an algorithm that keeps the philosophers alive as far as possible. The programs must take several parameters:
+Additionally, if a philosopher doesn't fetch both forks quickly enough, they will die 💀
 
-* **```number_of_philosophers```**: the number of philosophers around the table,
-* **```time_to_die```**: a number representing the time in milliseconds a philosopher has to live after a meal. If a philosopher hasn’t started eating time_to_die milliseconds after the beginning of his last meal or the beginning of the simulation, he will die.
-* **```time_to_eat```**: a number representing the time in milliseconds a philosopher takes to finish his meal. During that time, the philosopher keeps his two forks in hand.
-* **```time_to_sleep```**: the time in milliseconds that a philosopher spends sleeping.
-* **```number_of_times_each_philosopher_must_eat```**: an optional argument that allows the program to stop if all the philosophers have eaten at least that many times. If this argument is not specified, the simulation carries on unless a philosopher dies.
+## My philo Program
 
-The programs outputs a message each time a philosopher takes an action, which is formatted this way:
+We are asked to compile an executable called ``philo``, which will behave as follows:
 
 ```
-[timestamp_in_ms] [X] has taken a fork
-[timestamp_in_ms] [X] is eating
-[timestamp_in_ms] [X] is sleeping
-[timestamp_in_ms] [X] is thinking
-[timestamp_in_ms] [X] died
+usage: philo <philo_count> <die_time> <eat_time> <sleep_time> [<repeat_times>]
 ```
+
+| Argument | Description | Details |
+| :------: | :---------: | :-----: |
+| ``philo_count`` | Number of philosophers | Larger than ``0`` |
+| ``die_time`` | How often a philosopher must eat | At least ``0`` |
+| ``eat_time`` | How long it takes for a philosopher to eat | At least ``0`` |
+| ``sleep_time`` | How long it takes for a philosopher to sleep | At least ``0`` |
+| ``repeat_times`` | Number of times every philosopher must eat before exiting | (optional arg) Larger than ``0`` |
+
+Note: times are measured in milliseconds
 
 ## Mandatory Part - Threads and Mutexes
 
