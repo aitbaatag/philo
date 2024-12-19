@@ -1,5 +1,4 @@
 <a name="readme-top"></a>
-<div align="center">
   <!-- Logo -->
   <a href="https://github.com/aitbaatag/philo">
   <img src="readme_file/logo.png" alt="Logo" width="80" height="80">
@@ -48,12 +47,12 @@ In the mandatory part, each philosopher is a thread and each fork is protected b
 
 Git clone the project and for the mandatory part:
 ```shell
-cd philosophers/philo
+cd philo
 ```
-To compile, use ```make``` or:
+To compile, use ```make```:
 
 ```shell
-make BUILD=pretty
+make
 ```
 
 Run the program with the following arguments:
