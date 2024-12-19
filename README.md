@@ -10,18 +10,6 @@
 
 Philosophers is a 42 school project designed around Edsger Dijkstra's famous dining philosophers problem. For this project, we must learn about concurrent programming. For the project's mandatory part, we must find a solution to the problem using only threads and mutexes. For the bonus part, we must create a second program that uses processes and semaphores.
 
-This project has been archived in the state it was in at the time of evaluation.
-
----
-
-:us: Read my articles in English about the concepts tackled in this project:
-* [Threads, Mutexes and Concurrent Programming in C](https://www.codequoi.com/en/threads-mutexes-and-concurrent-programming-in-c/)
-
-:fr: Lire mes articles en français sur les concepts abordés dans ce projet :
-* [Threads, mutex et programmation concurrente en C](https://www.codequoi.com/threads-mutex-et-programmation-concurrente-en-c/)
-
----
-
 ## General Description
 
 TThe idea behind this problem comes from a very popular problem called *the dining philosophers problem*. It goes as follows. A certain number of philosophers sit on a round table. Each philosophers has a fork/chopstick on their left and their right. There are as many forks as philosophers on the table, and every philosopher has a bowl of spaghetti in front of them. Philosophers do these tasks in the following order:
